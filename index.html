@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		textarea{
+			height: 300px;
+			width: 100%;
+		}
+		button{
+			height:2em;
+			font-size: 2em;
+			width:100%;
+			display:block;
+			margin: 0.5em 0;
+		}
+		.container{
+			width: 90%;
+			margin: auto;
+		}
+		#form {
+			text-align: center;
+		}
+		.hide{
+			display: none;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Format raw_email to viewable .eml file</h1>
+		<div id="form">
+			<div class="item">
+				<h2>Input: copy and paste raw_email</h2>
+				<textarea id="input"></textarea>
+			</div>
+			<button onclick="clickConvertAndDownload()">Convert &amp; Download</button>
+			<div id="outputPanel" class="item hide">
+				<h2>Output</h3>
+				<textarea id="output"></textarea>
+				<button onclick="clickDownload()">Download Output</button>
+			</div>
+			<button onclick="clickEditOutput()">Edit/Toggle Output</button>
+		</div>
+	</div>
+
+
+
+<script type="text/javascript">
+	
+	function setOutput(str){
+		document.getElementById("output").value = str;
+	}
+	function getInput(){
+		return document.getElementById("input").value;
+	}
+	function getOutput(){
+		return document.getElementById("output").value;
+	}
+	function clickEditOutput(){
+		document.getElementById("outputPanel").classList.toggle("hide");
+	}
+	
+	function clickConvert(){
+		setOutput(convert(getInput()));
+	}
+	function clickDownload(){
+		download("test.eml", getOutput());
+	}
+	function clickConvertAndDownload(){
+		clickConvert();
+		clickDownload();
+	}
+
+	function convert(input){
+		var regex = new RegExp("^\\s*\\\"raw_email\\\":\\s*\\\"", "i"); 
+		var regexend = new RegExp("\"\\s*$", "i"); 
+
+		var output = input.replace(/\\r\\n/gi, "\n");
+		if(output.match(regex)){
+			output = output.replace(regex, "");
+			output = output.replace(regexend, "");
+		}
+		return output;
+	}
+
+	// thanks https://stackoverflow.com/a/18197341
+	function download(filename, text) {
+		var element = document.createElement('a');
+		element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+		element.setAttribute('download', filename);
+
+		element.style.display = 'none';
+		document.body.appendChild(element);
+
+		element.click();
+
+		document.body.removeChild(element);
+	}
+
+
+
+</script>
+
+
+</body>
+</html>
