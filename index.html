@@ -78,6 +78,7 @@
 		var regexend = new RegExp("\"\\s*$", "i"); 
 
 		var output = input.replace(/\\r\\n/gi, "\n");
+		output = output.replace(/\\t/gi, "\t");
 		if(output.match(regex)){
 			output = output.replace(regex, "");
 			output = output.replace(regexend, "");
