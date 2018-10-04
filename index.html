@@ -79,6 +79,11 @@
 
 		var output = input.replace(/\\r\\n/gi, "\n");
 		output = output.replace(/\\t/gi, "\t");
+		output = output.replace(/\\\"/gi, "\"");
+		output = output.replace(/\\u003c/gi, "<");
+		output = output.replace(/\\u003e/gi, ">");
+		output = output.replace(/\\u0026/gi, "&");
+
 		if(output.match(regex)){
 			output = output.replace(regex, "");
 			output = output.replace(regexend, "");
